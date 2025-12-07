@@ -1,0 +1,105 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+    int info;
+    struct node *next;
+};
+
+struct node* insertend(struct node *start, int item) {
+    struct node *p, *temp;
+    p = (struct node*)malloc(sizeof(struct node));
+    p->info = item;
+    p->next = NULL;
+
+    if (start == NULL) {
+        start = p;
+        return start;
+    }
+
+    temp = start;
+    while (temp->next != NULL)
+        temp = temp->next;
+
+    temp->next = p;
+    return start;
+}
+
+struct node* concat(struct node *start1,struct node *start2){
+    struct node *temp=start1;
+    if(start1==NULL)
+    return start2;
+    if(start2==NULL)
+    return start1;
+    else{
+        while(temp->next!=NULL)
+        temp=temp->next;
+        temp->next=start2;
+        return start1;
+    }
+}
+
+struct node* rev(struct node *start){
+    struct node *cur=NULL,*temp=start->next;
+    while(start!=NULL){
+            temp=start->next;
+    start->next=cur;
+    cur=start;
+    start=temp;
+    }
+return cur;
+}
+
+struct node* sort_sll(struct node *start){
+    int x;
+    if(start==NULL)
+    printf("Empty LL\n");
+    else{
+        struct node *temp=start,*follow=start;
+        for(temp=start;temp!=NULL;temp=temp->next){
+            for(follow=temp;follow!=NULL;follow=follow->next){
+                if(temp->info>follow->info){
+                    x=temp->info;
+                    temp->info=follow->info;
+                    follow->info=x;
+                }
+            }
+        }
+        
+    }
+    return start;
+}
+
+void display(struct node *start) {
+    struct node *p = start;
+
+    if (p == NULL) {
+        printf("List is empty.\n");
+        return;
+    }
+
+    while (p != NULL) {
+        printf("%d -> ", p->info);
+        p = p->next;
+    }
+
+    printf("NULL\n");
+}
+
+void main(){
+    struct node *start1=NULL,*start2=NULL;
+    int i;
+    for(i=0;i<50;i=i+10)
+        start1=insertend(start1,i);
+    for(i=50;i<100;i=i+10)
+        start2=insertend(start2,i);
+    printf("Concatenated List:\n");
+    start1=concat(start1,start2);
+    display(start1);
+    printf("Reversed List:\n");
+    start1=rev(start1);
+    display(start1);
+    start1=sort_sll(start1);
+    printf("Srorted List:\n");
+    display(start1);
+}
