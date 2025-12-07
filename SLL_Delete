@@ -1,0 +1,114 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node{
+    int info;
+    struct node *next;
+};
+
+struct node *start=NULL;
+
+struct node* insertend(struct node *start,int item){
+    struct node *p,*temp=start;
+    p=(struct node *)malloc(sizeof(struct node));
+    p->info=item;
+    p->next=NULL;
+    if(start==NULL)
+        start=p;
+    else{
+        while(temp->next!=NULL)
+        temp=temp->next;
+        temp->next=p;
+    }
+    return start;
+}
+
+struct node* deleteelement(struct node *start,int ele){
+    struct node *follow=NULL,*temp=start;
+    if(start==NULL)
+        printf("Empty LL\n");
+    else if(start->info==ele){
+        free(start);
+        return NULL;
+    }
+    else{
+        while(temp!=NULL && temp->info!=ele){
+            follow=temp;
+            temp=temp->next;
+        }
+        follow->next=temp->next;
+        free(temp);
+    }
+    return start;
+}
+
+struct node* deletebeg(struct node *start){
+    if(start==NULL){
+        printf("Empty LL\n");
+    }
+    else{
+        start=start->next;
+    }
+    return start;
+}
+
+struct node* deleteend(struct node *start){
+    struct node *temp=start,*follow=start;
+    if(start==NULL)
+    printf("Empty LL\n");
+    else if(start->next==NULL)
+    start=NULL;
+    else{
+        while(temp->next!=NULL){
+            follow=temp;
+            temp=temp->next;
+        }
+        free(temp);
+        follow->next=NULL;
+    }
+    return start;
+}
+
+void disp(struct node *start){
+    struct node *temp=start;
+    if(start==NULL)
+    printf("Empty LL\n");
+    else{
+        while(temp!=NULL){
+            printf("%d->",temp->info);
+            temp=temp->next;
+        }
+        printf("NULL\n");
+    }
+}
+
+void main(){
+    struct node *start,*p;
+    start=NULL;
+    int i=0,n,e;
+    for(i=1;i<=5;i++){
+    p=(struct node *)malloc(sizeof(struct node));
+    start=insertend(start,i*10);
+    }
+    printf("1.Delete End\n2.Delete beginning\n3.Delete element\n4.Exit\n");
+    scanf("%d",&n);
+    while(n!=4){
+    switch(n){
+        case 1:
+        start=deleteend(start);
+        break;
+        case 2:
+        start=deletebeg(start);
+        break;
+        case 3:
+        printf("Enter the element to be deleted\n");
+        scanf("%d",&e);
+        start=deleteelement(start,e);
+        break;
+        
+    }
+    scanf("%d",&n);
+    }
+    printf("The Linked List is:");
+    disp(start);
+}
