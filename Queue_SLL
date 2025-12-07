@@ -1,0 +1,112 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+    int info;
+    struct node *next;
+};
+
+struct node* insertend(struct node *start, int item) {
+    struct node *p, *temp;
+    p = (struct node*)malloc(sizeof(struct node));
+    p->info = item;
+    p->next = NULL;
+
+    if (start == NULL) {
+        return p;
+    }
+
+    temp = start;
+    while (temp->next != NULL)
+        temp = temp->next;
+
+    temp->next = p;
+    return start;
+}
+
+struct node* rev(struct node *start){
+    struct node *cur=NULL,*temp=start->next;
+    while(start!=NULL){
+        temp = start->next;
+        start->next = cur;
+        cur = start;
+        start = temp;
+    }
+    return cur;
+}
+
+struct node* insertend2(struct node *start,int item){   // Not used but kept since you had it
+    struct node *p,*temp=start;
+    p = (struct node *)malloc(sizeof(struct node));
+    p->info = item;
+    p->next = NULL;
+
+    if(start == NULL)
+        start = p;
+    else{
+        while(temp->next != NULL)
+            temp = temp->next;
+        temp->next = p;
+    }
+    return start;
+}
+
+struct node* deletebeg(struct node *start){
+    if(start == NULL){
+        printf("Empty LL\n");
+        return NULL;
+    }
+    struct node *temp = start;
+    start = start->next;
+    free(temp);
+    return start;
+}
+
+void disp(struct node *start){
+    struct node *temp = start;
+
+    if (start == NULL) {
+        printf("Queue is empty\n");
+        return;
+    }
+
+    printf("Queue elements:\n");
+    while (temp != NULL) {
+        printf("%d\n", temp->info);
+        temp = temp->next;
+    }
+}
+
+int main() {
+    struct node *start = NULL;
+    int choice, item;
+
+    while (1) {
+        printf("1. Enqueue\n2. Dequeue\n3. Display\n4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+
+            case 1:
+                printf("Enter element to enqueue: ");
+                scanf("%d", &item);
+                start = insertend(start, item);
+                break;
+
+            case 2:
+                start = deletebeg(start);
+                break;
+
+            case 3:
+                disp(start);
+                break;
+
+            case 4:
+                return 0;
+
+            default:
+                printf("Invalid choice\n");
+        }
+    }
+}
