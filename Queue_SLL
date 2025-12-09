@@ -24,33 +24,6 @@ struct node* insertend(struct node *start, int item) {
     return start;
 }
 
-struct node* rev(struct node *start){
-    struct node *cur=NULL,*temp=start->next;
-    while(start!=NULL){
-        temp = start->next;
-        start->next = cur;
-        cur = start;
-        start = temp;
-    }
-    return cur;
-}
-
-struct node* insertend2(struct node *start,int item){   // Not used but kept since you had it
-    struct node *p,*temp=start;
-    p = (struct node *)malloc(sizeof(struct node));
-    p->info = item;
-    p->next = NULL;
-
-    if(start == NULL)
-        start = p;
-    else{
-        while(temp->next != NULL)
-            temp = temp->next;
-        temp->next = p;
-    }
-    return start;
-}
-
 struct node* deletebeg(struct node *start){
     if(start == NULL){
         printf("Empty LL\n");
