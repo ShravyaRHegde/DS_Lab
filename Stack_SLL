@@ -43,7 +43,7 @@ struct node* deletelast(struct node *start) {
         return start;
     }
 
-    // Only one node
+    
     if (start->next == NULL) {
         free(start);
         return NULL;
