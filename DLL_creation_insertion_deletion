@@ -1,0 +1,146 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct node{
+    int info;
+    struct node *prev;
+    struct node *next;
+};
+
+struct node *start=NULL;
+
+struct node* createdll(struct node *start,int item){
+    struct node *p=(struct node *)malloc(sizeof(struct node));
+    p->prev=NULL;
+    p->next=NULL;
+    p->info=item;
+    if(start==NULL)
+        start=p;
+    else{
+        struct node *temp=start;
+        while(temp->next!=NULL)
+            temp=temp->next;
+        temp->next=p;
+        p->prev=temp;
+    }
+    return start;
+}
+
+struct node *insertleft(struct node *start,int item,int ele)
+{
+    if(start==NULL){
+        printf("Empty DLL\n");
+        return start;
+    }
+    struct node *p=(struct node *)malloc(sizeof(struct node));
+    p->prev=NULL;
+    p->next=NULL;
+    p->info=item;
+    if(start->info==ele)
+        {
+            p->next=start;
+            start->prev=p;
+            start=p;
+        }
+        else{
+                struct node *temp=start,*follow=start;
+        while(temp->info!=ele && temp!=NULL){
+            follow=temp;
+            temp=temp->next;
+        }
+        if(temp==NULL)
+            printf("Element not found\n");
+        else{
+            follow->next=p;
+            p->prev=follow;
+            p->next=temp;
+            temp->prev=p;
+        }
+    }
+    return start;
+}
+
+struct node *deleteele(struct node *start)
+{
+    int ele;
+    struct node *temp;
+
+    if (start == NULL) {
+        printf("Empty DLL\n");
+        return start;
+    }
+
+    printf("Enter element to be deleted:\n");
+    scanf("%d", &ele);
+
+    temp = start;
+
+    while (temp != NULL && temp->info != ele)
+        temp = temp->next;
+
+    if (temp == NULL) {
+        printf("Element not found\n");
+        return start;
+    }
+
+    if (temp == start) {
+        start = temp->next;
+        if (start != NULL)
+            start->prev = NULL;
+    } else {
+        temp->prev->next = temp->next;
+        if (temp->next != NULL)
+            temp->next->prev = temp->prev;
+    }
+
+    free(temp);
+    return start;
+}
+
+
+void display(struct node *start){
+    if(start==NULL)
+        printf("Empty DLL\n");
+    else{
+        struct node *temp=start;
+        while(temp!=NULL){
+            printf("%d->",temp->info);
+            temp=temp->next;
+        }
+        printf("NULL\n");
+    }
+}
+
+
+void main(){
+    printf("Creating DLL:Enter elements(-100 to exit)\n");
+    int n=0;
+    while(n!=-100)
+    {
+        scanf("%d",&n);
+        if(n!=-100)
+        start=createdll(start,n);
+    }
+    int item,ele;
+    n=0;
+    printf("1.Insertion to the left\n2.Deletion of element\n3.Display\n4.Exit\n");
+    while(n!=4){
+            printf("Enter the function:\n");
+            scanf("%d",&n);
+        switch(n){
+    case 1:
+        printf("Enter element to be inserted:\n");
+        scanf("%d",&item);
+        printf("Enter before which element");
+        scanf("%d",&ele);
+        start=insertleft(start,item,ele);
+        break;
+    case 2:
+        start=deleteele(start);
+        break;
+    case 3:
+        display(start);
+        break;
+        }
+    }
+
+}
